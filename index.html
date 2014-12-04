@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>银行卡号绑定</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <link href="" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <script type="text/javascript" src="js/Knockout-3.2.0.js"></script>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var $form_inputs = $('form input');
+        var $rainbow_and_border = $('.rain, .border');
+        $form_inputs.bind('focus', function() {
+            $rainbow_and_border.addClass('end').removeClass('unfocus start');
+        });
+        $form_inputs.bind('blur', function() {
+            $rainbow_and_border.addClass('unfocus start').removeClass('end');
+        });
+        $form_inputs.first().delay(800).queue(function() {
+            $(this).focus();
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <div class="rain">
+        <div class="border start" data-bind="data:viewModel">
+            <form>
+                <label for="data">请输入您的银行卡号：</label>
+                <input maxlength="19" id="bank1" data-bind="value: someValue,valueUpdate:'afterkeydown'" keyup="update" />
+                <label for="pdata">您输入的银行卡号为：</label>
+                <input id="bank2" data-bind="value: someValue " />
+                <input type="submit" value="LOG IN" />
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var middle;
+    var viewModel = {
+        someValue: ko.observable(""),
+        middleValue:ko.observable(middle)
+    };
+    ko.applyBindings(viewModel);
+
+
+    window.onload = function() {
+        var theBank1 = document.getElementById("bank1");
+        var theBank2 = document.getElementById("bank2");
+        theBank1.onkeyup = function() {
+            var num = theBank1.value;
+            num = num.replace(/\s/g, "").replace(/\D/g, "");
+            this.value = num;
+            theBank2.value = num.replace(/(\d{4})/g, "$1 ");
+        };
+    };
+    </script>
+</body>
+
+</html>
